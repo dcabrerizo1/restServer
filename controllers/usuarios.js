@@ -79,6 +79,12 @@ const usuariosPatch = (req, res = response) => {
 const usuariosDelete = async (req, res = response) => {
     const { id } = req.params;
 
+    // Definimos una variable con el usuario que lanza la acción
+    //const user_uid = req.user_uid;
+
+    // Comprobamos que llega el uid pasado por la request desde la validación del token (validacion_jwt)
+    //const uid = req.uid;
+
     // Borrar físicamente
     // const user = await User.findByIdAndDelete( id )
 
@@ -87,7 +93,8 @@ const usuariosDelete = async (req, res = response) => {
 
     // Respuesta JSON
     res.json({
-        user
+        'Usuario eliminado': user
+        //, 'Usuario validado': user_uid
     })
 }
 

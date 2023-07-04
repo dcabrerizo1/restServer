@@ -1,16 +1,17 @@
-
-
-
 const { Router } = require('express');
 const { usuariosGet, usuariosPost, usuariosPut, usuariosPatch, usuariosDelete } = require('../controllers/usuarios');
 const { check } = require('express-validator');
-const { validarCampos } = require('../middlewares/validacion-campos');
 const { validRole, validEmail, validId } = require('../helpers/db-validators');
 
+// Importar middlewares unificados
+const {
+    validateJWT, adminRole, haveRole, validarCampos
+} = require('../middlewares')
+//const { validateJWT } = require('../middlewares/validacion_jwt');
+//const { adminRole, haveRole } = require('../middlewares/validacion-roles');
+//const { validarCampos } = require('../middlewares/validacion-campos');
 
 const router = Router();
-
-
 
 
 /*
@@ -55,6 +56,12 @@ router.put('/:id',[
 router.patch('/',usuariosPatch )
 
 router.delete('/:id',[
+    // Comprovar token
+    validateJWT, 
+    // Comprovar rol del usuario que llama la acción (token)
+    //adminRole,
+    // Comprovar si el usuario tiene uno de los roles requeridos
+    haveRole('ADMIN_ROLE', 'VENTAS_ROLE'),
     // Comprobar si la ID es válida
     check('id','No es un ID válido').isMongoId(),
     // Comprobar si la ID ya ha sido registrada

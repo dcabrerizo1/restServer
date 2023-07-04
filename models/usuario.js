@@ -35,7 +35,11 @@ const userSchema = Schema({
 
 // Excluimos algunos campos del objeto que devuelve al usuario cuando es creado
 userSchema.methods.toJSON = function (){
-    const { __v, pass, ...user } = this.toObject();
+    const { __v, pass, _id, ...user } = this.toObject()
+    
+    // Canviem de nom la columna _id
+    user.uid = _id  
+
     return user
 }
 
