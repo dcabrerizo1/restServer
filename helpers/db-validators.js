@@ -60,6 +60,18 @@ const productIdExist = async(id) => {
     }
 }
 
+// Verificar si la colección está permitida
+const allowedCollections = async ( collection = '' , collections = [] ) => {
+
+    const included = collections.includes(collection)
+    if( !included ){
+        throw new Error(`La colección ${collection} no está permitida - ${collections}`)
+    }
+
+    return true
+
+}
+
 
 module.exports = {
     validRole,
@@ -68,5 +80,6 @@ module.exports = {
     categoryExist,
     checkCategoryName,
     productExist,
-    productIdExist
+    productIdExist,
+    allowedCollections
 }
